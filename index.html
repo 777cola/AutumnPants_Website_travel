@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-i18n-title="page.title">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>旅行 — 戚俊皓</title>
-<meta name="description" content="旅行足迹 — 正在建设中">
-<meta property="og:title" content="旅行 | 戚俊皓">
-<meta property="og:description" content="旅行足迹 — 还没做好，敬请期待">
+<meta name="description" data-i18n-meta="page.desc" content="旅行足迹 — 正在建设中">
+<meta property="og:title" data-i18n-meta="page.ogtitle" content="旅行 | 戚俊皓">
+<meta property="og:description" data-i18n-meta="page.ogdesc" content="旅行足迹 — 还没做好，敬请期待">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,10 +94,12 @@ p {
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
     <a href="/" class="nav-logo">Qi JunHao<span class="dot">.</span></a>
+
     <div class="nav-gooey" id="navGooey"></div>
+
     <div class="nav-right">
       <div class="lang-toggle" id="langToggle">
-        <span class="lang-item active" data-lang="zh" data-full="简体中文">简</span>
+        <span class="lang-item" data-lang="zh" data-full="简体中文">简</span>
         <span class="lang-item" data-lang="en" data-full="English">EN</span>
         <span class="lang-item" data-lang="hant" data-full="繁體中文">繁</span>
       </div>
@@ -110,16 +112,37 @@ p {
 
 <div class="container">
   <span class="icon">✈️</span>
-  <h1>旅行</h1>
-  <span class="status">还没做好</span>
-  <p>这个页面还在施工中<br>旅行足迹会放在这里</p>
-  <a href="https://qijunhao.com" class="back-link">回到首页</a>
+  <h1 data-i18n="page.h1">旅行</h1>
+  <span class="status" data-i18n="coming.status">还没做好</span>
+  <p data-i18n="coming.desc">这个页面还在施工中<br>旅行足迹会放在这里</p>
+  <a href="https://qijunhao.com" class="back-link" data-i18n="coming.back">回到首页</a>
 </div>
 
+<script>
+window.PAGE_I18N = {
+  zh: {
+    'page.title':'旅行 — 戚俊皓','page.desc':'旅行足迹 — 正在建设中',
+    'page.ogtitle':'旅行 | 戚俊皓','page.ogdesc':'旅行足迹 — 还没做好，敬请期待',
+    'page.h1':'旅行',
+  },
+  en: {
+    'page.title':'Travel — Qi JunHao','page.desc':'Travel — Under Construction',
+    'page.ogtitle':'Travel | Qi JunHao','page.ogdesc':'Travel — Coming Soon',
+    'page.h1':'Travel',
+  },
+  hant: {
+    'page.title':'旅行 — 戚俊皓','page.desc':'旅行足跡 — 正在建設中',
+    'page.ogtitle':'旅行 | 戚俊皓','page.ogdesc':'旅行足跡 — 還沒做好，敬請期待',
+    'page.h1':'旅行',
+  }
+};
+</script>
 <script src="common.js"></script>
+
+
 <script src="gooey-nav.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   var gooeyContainer = document.getElementById('navGooey');
   if (gooeyContainer && typeof window.GooeyNav === 'function') {
     var lang = localStorage.getItem('lang') || 'zh';
