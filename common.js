@@ -1,3 +1,26 @@
+;(function () {
+  /* PREFS — cross-subdomain shared prefs (cookie .qijunhao.com + localStorage) */
+  function prefDomain() {
+    var h = location.hostname;
+    return (h === 'qijunhao.com' || h.slice(-13) === '.qijunhao.com') ? '; domain=.qijunhao.com' : '';
+  }
+  function setPref(key, value) {
+    try { localStorage.setItem(key, value); } catch (e) {}
+    try { document.cookie = key + '=' + encodeURIComponent(value) + '; path=/; max-age=31536000' + prefDomain(); } catch (e) {}
+  }
+  function getPref(key) {
+    try {
+      var v = localStorage.getItem(key);
+      if (v !== null) { setPref(key, v); return v; }
+    } catch (e) {}
+    try {
+      var m = document.cookie.match(new RegExp('(?:^|; )' + key + '=([^;]*)'));
+      return m ? decodeURIComponent(m[1]) : null;
+    } catch (e) { return null; }
+  }
+  window.Prefs = { get: getPref, set: setPref };
+})();
+
 /* =====================================================
    COMMON JS — 戚俊皓 | Personal Website v3
    ===================================================== */
@@ -48,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
   'use strict';
 
   // ─── I18N ──────────────────────────────────────────
-  let currentLang = localStorage.getItem('lang') || 'zh';
+  let currentLang = Prefs.get('lang') || 'zh';
 
   function t(key, lang) {
     var page = window.PAGE_I18N && window.PAGE_I18N[lang];
@@ -64,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function applyLanguage(lang) {
     currentLang = lang;
-    localStorage.setItem('lang', lang);
+    Prefs.set('lang', lang);
     document.documentElement.setAttribute('data-lang', lang);
 
     document.querySelectorAll('[data-i18n]').forEach(function(el) {
@@ -110,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ─── Theme Toggle ──────────────────────────────────
   var themeToggle = document.getElementById('themeToggle');
-  var savedTheme = localStorage.getItem('theme') || 'light';
+  var savedTheme = Prefs.get('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
   if (themeToggle) updateThemeIcon(savedTheme);
 
@@ -120,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.classList.add('theme-transitioning');
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
+      Prefs.set('theme', next);
       updateThemeIcon(next);
       setTimeout(function() {
         document.documentElement.classList.remove('theme-transitioning');
